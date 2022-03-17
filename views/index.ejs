@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Shortee</title>
+	<link rel="stylesheet" href="./assets/css/style.css">
+	<link rel="stylesheet" href="./assets/css/toast.css">
+	<script src="./assets/js/toast.js" defer></script>
+	<script src="./assets/js/script.js" defer></script>
+	<meta name="description" content="Shortee | A product of rhinzo">
+	<meta property="og:url" content="" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Shortee | Make your road to success shorter" />
+	<meta property="og:description" content="Shortee | A product of rhinzo" />
+	<meta property="og:image" content="./assets/images/thumbnail.jpg" />
+	<link rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-icon">
+	<link rel="apple-touch-icon" href="./assets/images/favicon.png">
+</head>
+
+<body>
+	<div id="app">
+		<div id="toast"></div>
+		<header>
+			<h1>Shortee</h1>
+			<span id="total">
+				Total:
+				<div id="shorteeCount">
+					<%= Object.keys(shortees).length %>
+				</div>
+				<%= Object.keys(shortees).length> 1 ? "Shortees" : "Shortee" %>
+			</span>
+		</header>
+		<form action="/shortee" method="POST" id="mainForm">
+			<div id="longUrlInput">
+				<input type="text" name="longUrl" id="longUrl" placeholder=" " autocomplete="off" spellcheck="off">
+				<label for="longUrl">Long URL...</label>
+				<ion-icon title="Paste Clipboard" name="clipboard-outline" id="paste-btn"></ion-icon>
+				<ion-icon name="close-outline" id="clear-btn"></ion-icon>
+			</div>
+			<button type="submit" id="shortUrlBtn">Shrink!</button>
+		</form>
+		<ul id="shorteesList">
+			<% for (shortee in shortees) { %>
+				<li class="shortee" data-id="<%= shortees[shortee].short %>">
+					<div class="shorteeHeader">
+						<span class="shorteeLink" onclick="copyToClipboard(this.innerText)"
+							ondblclick="openInNewTab(this.innerText)">
+							<%= shortees[shortee].short %>
+						</span>
+						<span class="shorteeBtns">
+							<ion-icon name="trash-outline" class="deleteBtn"
+								onclick="delShortee('<%= shortees[shortee].short %>')"></ion-icon>
+						</span>
+					</div>
+					<div class="shorteeBody">
+						<code class="longLink">
+							<a href="<%= shortees[shortee].full %>" target="_blank"
+								rel="noopener noreferrer"><%= shortees[shortee].full %></a>
+						</code>
+					</div>
+					<div class="shorteeFooter">
+						<span class="shorteeClicks">
+							<%= shortees[shortee].clicks %>
+								<%= (shortees[shortee].clicks> 1 && "clicks") || "click" %>
+						</span>
+						<span class="shorteeTime">
+							<%= shortees[shortee].time %>
+						</span>
+					</div>
+				</li>
+				<% } %>
+		</ul>
+		<span id="noShorteeTxt">
+			<p>＞﹏＜</p>
+			<p>Oops, No shortee yet...</p>
+		</span>
+	</div>
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<!-- Development -->
+	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+	<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+	<script>
+		tippy('.shorteeLink', {
+			content: 'Click to copy.\nDouble click to open in new tab.',
+			arrow: false,
+			delay: [1000, 0],
+			duration: [200, 0],
+			maxWidth: 150,
+			placement: 'bottom',
+		});
+		tippy('.deleteBtn', {
+			content: 'Delete this shortee.',
+			arrow: false,
+			delay: [1000, 0],
+			duration: [200, 0],
+			placement: 'bottom',
+		});
+
+	</script>
+</body>
+
+</html>

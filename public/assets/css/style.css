@@ -1,0 +1,364 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100%;
+}
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	outline: none;
+	border: none;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+body {
+	height: 100vh;
+	width: 100%;
+	overflow: hidden;
+	background: #f0f0f0;
+	color: #222;
+	font-family: "montserrat", sans-serif;
+}
+code {
+	padding: 0.5rem;
+	background: #bfbfbf;
+	color: #222;
+	border-radius: 10px;
+}
+::-webkit-scrollbar {
+	width: 5px;
+}
+::-webkit-scrollbar-track {
+	background: #f0f0f0;
+	border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+	background: #bbb;
+	border-radius: 5px;
+}
+#app {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: column;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	padding: 0 50px;
+}
+header {
+	text-align: center;
+	margin-bottom: 1rem;
+}
+header h1 {
+	font-size: 2.5rem;
+	font-weight: 900;
+}
+header #total {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+header #shorteeCount {
+	margin: 0 5px;
+	font-weight: 500;
+	color: cornflowerblue;
+}
+
+#mainForm {
+	position: relative;
+	display: flex;
+	width: 100%;
+}
+#longUrlInput {
+	position: relative;
+	width: 100%;
+	font-weight: 400;
+	margin-bottom: 1rem;
+}
+#longUrlInput label {
+	pointer-events: none;
+	user-select: none;
+	position: absolute;
+	top: 50%;
+	left: 0.5rem;
+	transition: 0.2s ease-in-out;
+	transform: translateY(-50%);
+	padding: 0rem 0.5rem;
+	font-size: 1rem;
+	font-weight: 700;
+	color: #2222223d;
+}
+#longUrlInput input {
+	border: 2px solid #bfbfbf;
+	border-radius: 2rem;
+	background: none;
+	padding: 0.5rem 3rem 0.5rem 1rem;
+	width: 100%;
+}
+#longUrlInput input:not(:placeholder-shown) + label {
+	background: #f0f0f0;
+	color: #bfbfbf;
+	top: -2px;
+}
+#longUrlInput input:not(:placeholder-shown) ~ #paste-btn {
+	opacity: 0;
+	visibility: hidden;
+}
+#longUrlInput input:not(:placeholder-shown) ~ #clear-btn {
+	opacity: 1;
+	visibility: visible;
+}
+
+#longUrlInput ion-icon {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+	color: #bfbfbf;
+	cursor: pointer;
+	font-size: 1.5rem;
+	transition: 0.2s ease-in-out;
+	padding: 0.5rem;
+	border: 2px solid #bfbfbf;
+	border-radius: 50%;
+}
+#longUrlInput ion-icon:last-child {
+	opacity: 0;
+	visibility: hidden;
+}
+#longUrlInput ion-icon:hover,
+#mainForm button:hover {
+	background: #bfbfbf !important;
+	color: #f0f0f0;
+}
+#mainForm button {
+	height: 44px;
+	padding: 0.5rem 1rem;
+	border: 2px solid #bfbfbf;
+	border-radius: 2rem;
+	background: none;
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
+	color: #bfbfbf;
+	margin-left: 10px;
+	transition: 0.2s ease-in-out;
+	user-select: none;
+}
+#tableContainer {
+	position: relative;
+	margin-top: 10px;
+	overflow-x: auto;
+	overflow-y: auto;
+	height: calc(100% - 200px);
+	width: 100%;
+	display: none;
+}
+#tableContainer::-webkit-scrollbar {
+	width: 8px;
+}
+#tableContainer::-webkit-scrollbar-track {
+	background: #f0f0f0;
+	border-radius: 20px;
+}
+#tableContainer::-webkit-scrollbar-thumb {
+	background: #ccc;
+	border-radius: 20px;
+	height: 50px;
+}
+table {
+	position: relative;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+table td,
+table th {
+	text-align: left;
+	border: 2px solid #bfbfbf;
+	padding: 0.5rem;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#tableContainer thead th {
+	position: sticky;
+	top: 0;
+	left: 0;
+	user-select: none;
+	background-color: #bfbfbf;
+	z-index: 999;
+}
+.count {
+	font-weight: 500;
+}
+.longUrl {
+	color: cornflowerblue;
+	background: none;
+}
+/* .shortee {
+	cursor: pointer;
+} */
+.delete {
+	cursor: pointer;
+	z-index: 0;
+}
+ul {
+	list-style: none;
+}
+#shorteesList {
+	--gap: 1rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	grid-gap: var(--gap);
+	width: 100%;
+	padding: 0.5rem 1rem;
+	overflow-y: auto;
+	grid-auto-flow: dense;
+	z-index: 99;
+}
+.shortee {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background: #fff;
+	border-radius: 5px;
+	padding: 0.5rem;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+	transition: 0.2s ease-in-out;
+}
+
+.shorteeHeader {
+	user-select: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding-left: 0.5rem;
+}
+.shorteeBody {
+	position: relative;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0 1rem;
+}
+.shorteeFooter {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 500;
+	user-select: none;
+	margin-top: 1rem;
+	font-size: 0.8rem;
+	white-space: nowrap;
+}
+.shorteeLink {
+	cursor: pointer;
+}
+.shorteeBtns ion-icon {
+	font-size: 1.25rem;
+	cursor: pointer;
+	opacity: 0.5;
+	transition: 0.2s ease-in-out;
+	border-radius: 5px;
+	padding: 5px;
+}
+.shorteeBtns ion-icon:hover {
+	opacity: 1;
+}
+.copyLongLink:hover {
+	color: #2196f3;
+	background: #2195f33a;
+}
+.deleteBtn:hover {
+	color: #f44336;
+	background: #f443363a;
+}
+.shorteeFooter span {
+	padding: 5px 10px;
+	border-radius: 5px;
+	background: #eee;
+	color: #aaa;
+}
+.longLink {
+	color: cornflowerblue;
+	background: none;
+	padding: 0;
+}
+.shorteeClicks {
+	margin-right: 5px;
+}
+#noShorteeTxt {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 2rem;
+	font-weight: 900;
+	color: #dcdcdc;
+	padding: 1rem;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	z-index: 0;
+	display: none;
+	user-select: none;
+	width: 100%;
+}
+#noShorteeTxt p {
+	text-align: center;
+}
+#noShorteeTxt.show {
+	display: flex;
+}
+@media screen and (max-width: 425px) {
+	#app {
+		padding: 0 10px;
+	}
+	#shorteesList {
+		padding: 0 1rem;
+	}
+}

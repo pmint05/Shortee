@@ -1,0 +1,46 @@
+<div id="tableContainer">
+    <table id="mainTable" cellspacing="0" cellpadding="1" border="1" width="300">
+        <thead>
+            <tr>
+                <th>Full URL(s)</th>
+                <th>Shortee(s)</th>
+                <th>Click(s)</th>
+                <th>Created</th>
+                <th>
+                    <ion-icon name="construct-outline"></ion-icon>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (shortee in shortees) {%>
+                <tr data-id="<%= shortees[shortee].short %>">
+                    <td>
+                        <code class="longUrl">
+									<a target="_blank" href="<%= shortees[shortee].full %>"><%= shortees[shortee].full %></a>
+								</code>
+                    </td>
+                    <td>
+                        <code class="shortee" onclick="copyToClipboard(this.innerText)"
+                            ondblclick="openInNewTab(this.innerText)">
+									<span href="<%= shortees[shortee].short %>"><%= shortees[shortee].short %></span>
+								</code>
+                    </td>
+                    <td>
+                        <span class="count">
+                            <%= shortees[shortee].clicks %>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="date">
+                            <%= shortees[shortee].time %>
+                        </span>
+                    </td>
+                    <td>
+                        <ion-icon name="trash-outline" class="delete"
+                            onclick="delShortee('<%= shortees[shortee].short %>')"></ion-icon>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+</div>
