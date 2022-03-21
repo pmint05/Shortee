@@ -13,7 +13,10 @@
 	right: 30px;
 	z-index: 999999;
 }
-
+body.dark .toast {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
 .toast {
 	padding: 10px;
 	border-left: 5px solid;
@@ -75,7 +78,7 @@
 	font-weight: 800;
 }
 .toast__message {
-	color: #888;
+	color: var(--default-color);
 	font-weight: 500;
 	line-height: 1.3;
 	margin-bottom: 5px;
@@ -141,4 +144,15 @@
 }
 .toast--error .toast__loading {
 	background-color: var(--error-color);
+}
+@media screen and (max-width: 425px) {
+    #toast {
+        bottom: 10px;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .toast {
+        min-width: 300px;
+        max-width: 320px;
+    }
 }

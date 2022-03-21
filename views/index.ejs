@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Shortee</title>
 	<link rel="stylesheet" href="./assets/css/style.css">
-	<link rel="stylesheet" href="./assets/css/toast.css">
-	<script src="./assets/js/toast.js" defer></script>
-	<script src="./assets/js/script.js" defer></script>
+    <link rel="stylesheet" href="./assets/css/toast.css">
 	<meta name="description" content="Shortee | A product of rhinzo">
 	<meta property="og:url" content="" />
 	<meta property="og:type" content="article" />
@@ -17,90 +14,161 @@
 	<meta property="og:description" content="Shortee | A product of rhinzo" />
 	<meta property="og:image" content="./assets/images/thumbnail.jpg" />
 	<link rel="shortcut icon" href="./assets/images/favicon.png" type="image/x-icon">
-	<link rel="apple-touch-icon" href="./assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="./assets/images/favicon.png">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-auth-compat.js" defer></script>
+    <script src="./assets/js/firebase.js" defer></script>
+    <script src="./assets/js/toast.js" defer></script>
+    <script src="./assets/js/script.js" defer></script>
 </head>
 
 <body>
 	<div id="app">
+        <nav class="sidebar close">
+            <header>
+                <div id="user">
+                    <img src="./assets/images/favicon.png" alt="avatar" id="avatar">
+                    <div id="name">Shortee</div>
+                </div>
+                <div class="toggle-btn">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </div>
+            </header>
+            <div class="menu-bar">
+                <div class="menu">
+                    <li class="search-box">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="text" placeholder="Search...">
+                    </li>
+                    <ul class="menu-links">
+                        <li class="nav-link">
+                            <a href="/">
+                                <ion-icon name="home-outline"></ion-icon>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-link" id="usageBtn">
+                            <a href="javascript:void(0)">
+                                <ion-icon name="information-outline"></ion-icon>
+                                <span class="text nav-text">Usage</span>
+                            </a>
+                        </li>
+                        <li class="nav-link" id="likeBtn">
+                            <a href="javascript:void(0)">
+                                <ion-icon name="heart-outline"></ion-icon>
+                                <span id="likeField">
+                                    <span class="text nav-text">Likes</span>
+                                    <blue>
+                                        <span id="likesCount">
+                                            <span id="likes">
+                                                <%= likes %>
+                                            </span>
+                                        </span>
+                                    </blue>
+                                </span>
+        
+                            </a>
+                        </li>
+                        <li class="nav-link" id="shareBtn">
+                            <a href="javascript:void(0)">
+                                <ion-icon name="arrow-redo-outline"></ion-icon>
+                                <span class="text nav-text">Share this</span>
+                            </a>
+                        </li>
+                        <li class="nav-link" id="feedbackBtn">
+                            <a href="javascript:void(0)">
+                                <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                                <span class="text nav-text">Feedback</span>
+                            </a>
+                        </li>
+        
+                    </ul>
+                </div>
+                <div class="bottom-content">
+                    <li class="nav-link" id="logoutBtn">
+                        <a href="javascript:void(0)">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+                    <li class="mode">
+                        <div class="moon-sun">
+                            <ion-icon name="moon-outline" class="moon"></ion-icon>
+                            <ion-icon name="sunny-outline" class="sun"></ion-icon>
+                        </div>
+                        <span class="mode-text text">Dark Mode</span>
+                        <div class="toggle-switch">
+                            <div class="switch"></div>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </nav>
+        <div id="loadingWrapper">
+            <div class="circle-loading"></div>
+        </div>
+        <div id="loginWrapper">
+            <h2>Welcome to SHORTEE</h2>
+            <p>The app make your road to success shorter!</p>
+            <button id="loginBtn">
+                <ion-icon name="logo-google"></ion-icon>Sign in with Google
+            </button>
+        </div>
+        <div id="confirmWrapper">
+            <h2 id="confirmHeader">Hello</h2>
+            <ion-icon name="warning-outline" id="confirmIcon"></ion-icon>
+            <p id="confirmMessage">Are you saying hello?</p>
+            <div id="confirmBtns">
+                <button id="confirmBtnYes">Yes</button>
+                <button id="confirmBtnNo">No</button>
+            </div>
+        </div>
+        <div id="pageWrapper">
+            <div id="pageLoadingWrapper">
+                <div class="circle-loading"></div>
+            </div>
+            <div id="pageHeader"></div>
+            <div id="pageContent" class="hide"></div>
+        </div>
+        <div id="overlay"></div>
 		<div id="toast"></div>
-		<header>
-			<h1>Shortee</h1>
-			<span id="total">
-				Total:
-				<div id="shorteeCount">
-					<%= Object.keys(shortees).length %>
-				</div>
-				<%= Object.keys(shortees).length> 1 ? "Shortees" : "Shortee" %>
-			</span>
-		</header>
-		<form action="/shortee" method="POST" id="mainForm">
-			<div id="longUrlInput">
-				<input type="text" name="longUrl" id="longUrl" placeholder=" " autocomplete="off" spellcheck="off">
-				<label for="longUrl">Long URL...</label>
-				<ion-icon title="Paste Clipboard" name="clipboard-outline" id="paste-btn"></ion-icon>
-				<ion-icon name="close-outline" id="clear-btn"></ion-icon>
-			</div>
-			<button type="submit" id="shortUrlBtn">Shrink!</button>
-		</form>
-		<ul id="shorteesList">
-			<% for (shortee in shortees) { %>
-				<li class="shortee" data-id="<%= shortees[shortee].short %>">
-					<div class="shorteeHeader">
-						<span class="shorteeLink" onclick="copyToClipboard(this.innerText)"
-							ondblclick="openInNewTab(this.innerText)">
-							<%= shortees[shortee].short %>
-						</span>
-						<span class="shorteeBtns">
-							<ion-icon name="trash-outline" class="deleteBtn"
-								onclick="delShortee('<%= shortees[shortee].short %>')"></ion-icon>
-						</span>
-					</div>
-					<div class="shorteeBody">
-						<code class="longLink">
-							<a href="<%= shortees[shortee].full %>" target="_blank"
-								rel="noopener noreferrer"><%= shortees[shortee].full %></a>
-						</code>
-					</div>
-					<div class="shorteeFooter">
-						<span class="shorteeClicks">
-							<%= shortees[shortee].clicks %>
-								<%= (shortees[shortee].clicks> 1 && "clicks") || "click" %>
-						</span>
-						<span class="shorteeTime">
-							<%= shortees[shortee].time %>
-						</span>
-					</div>
-				</li>
-				<% } %>
-		</ul>
-		<span id="noShorteeTxt">
-			<p>＞﹏＜</p>
-			<p>Oops, No shortee yet...</p>
-		</span>
-	</div>
-	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-	<!-- Development -->
-	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-	<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
-	<script>
-		tippy('.shorteeLink', {
-			content: 'Click to copy.\nDouble click to open in new tab.',
-			arrow: false,
-			delay: [1000, 0],
-			duration: [200, 0],
-			maxWidth: 150,
-			placement: 'bottom',
-		});
-		tippy('.deleteBtn', {
-			content: 'Delete this shortee.',
-			arrow: false,
-			delay: [1000, 0],
-			duration: [200, 0],
-			placement: 'bottom',
-		});
-
-	</script>
+        <div id="mainApp">
+            <header id="mainHeader">
+                <a href="/">
+                    <h1>Shortee</h1>
+                </a>
+                <div id="info">
+                    <span id="allShortees">All shortees created: <div id="allShorteesCount">0</div>
+                    </span>
+                    <span id="total">Your shortees: <div id="shorteeCount">0</div></span>
+                    </div>
+                    </header>
+                    <form action="/shortee" method="POST" id="mainForm">
+                        <div id="longUrlInput">
+                            <input type="text" name="longUrl" id="longUrl" placeholder=" " autocomplete="off" spellcheck="off">
+                            <label for="longUrl">Long URL...</label>
+                            <ion-icon title="Paste Clipboard" name="clipboard-outline" id="paste-btn"></ion-icon>
+                            <ion-icon name="close-outline" id="clear-btn"></ion-icon>
+                        </div>
+                <button type="submit" id="shortUrlBtn">Shrink!
+                    <div class="form-loading"></div>
+                </button>
+                </form>
+                <ul id="shorteesList"></ul>
+                <span id="noShorteeTxt">
+                    <p>＞﹏＜</p>
+                    <p>Oops, No shortee yet...</p>
+                </span>
+                </div>
+    </div>
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+    <script src="./assets/js/validator_v2.js"></script>
+    <script src="./assets/js/Feedback.js"></script>
 </body>
 
 </html>
