@@ -448,8 +448,9 @@ let addShortees = (data) => {
 		arrow: false,
 		delay: [500, 0],
 		duration: [200, 0],
-		maxWidth: 150,
+		maxWidth: 180,
 		placement: "bottom",
+		theme: "shortee",
 	});
 	tippy(".deleteBtn", {
 		content: "Delete this shortee.",
@@ -457,6 +458,7 @@ let addShortees = (data) => {
 		delay: [500, 0],
 		duration: [200, 0],
 		placement: "bottom",
+		theme: "shortee",
 	});
 };
 let postLikes = () => {
