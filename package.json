@@ -1,8 +1,11 @@
 {
-	"name": "URLShortener",
+	"name": "Shortee",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"engines": {
+		"node": ">=14.0.0"
+	},
 	"scripts": {
 		"devStart": "nodemon server.js",
 		"start": "node server.js"

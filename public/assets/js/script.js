@@ -36,6 +36,7 @@ let localData = JSON.parse(localStorage.getItem("shortee")) || {
 	isLiked: false,
 	mode: "light",
 };
+let isLoggedIn = false;
 let theme = localData.mode;
 let isLiked = localData.isLiked;
 let isLoaded = {
@@ -174,7 +175,7 @@ modeSwitch.onclick = () => {
 	localStorage.setItem("shortee", JSON.stringify(localData));
 };
 window.onload = () => {
-	hideLoginWrapper();
+	// hideLoginWrapper();
 	if (shorteesList.children.length == 0) {
 		noShorteeTxt.classList.add("show");
 	}
@@ -192,6 +193,7 @@ function googleLogin() {
 		.auth()
 		.signInWithPopup(provider)
 		.then((result) => {
+			isLoggedIn = true;
 			hideLoginWrapper();
 		})
 		.catch((error) => {
@@ -207,6 +209,8 @@ function logoutUser() {
 			.signOut()
 			.then(() => {
 				showLoginWrapper();
+				showUserInfo(user);
+				isLoggedIn = false;
 			})
 			.catch((error) => {
 				console.log(error);
@@ -220,17 +224,38 @@ let checkAuthState = () => {
 			currentUser = user;
 			// User is signed in.
 			console.log("user signed in");
-			hideLoginWrapper();
 			showUserInfo(user);
 			getShortees(user);
+			hideLoginWrapper();
+			isLoggedIn = true;
 		} else {
 			// No user is signed in.
 			console.log("user signed out");
 			showLoginWrapper();
 			shorteesList.innerHTML = "";
 			loadingWrapper.classList.add("hide");
+			isLoggedIn = false;
 		}
 	});
+};
+document.onmousemove = () => {
+	let loginWrapper = $("#loginWrapper");
+	if (
+		!isLoggedIn &&
+		(!loginWrapper ||
+			loginWrapper.classList.contains("hide") ||
+			loginWrapper.style.display == "none" ||
+			loginWrapper.style.opacity == "0" ||
+			loginWrapper.style.visibility == "hidden" ||
+			loginWrapper.style.height == "0px" ||
+			loginWrapper.style.width == "0px")
+	) {
+		confirmFunc("error", reload);
+		let mainApp = $("#mainApp");
+		let sidebar = $(".sidebar");
+		mainApp ? mainApp.remove() : 0;
+		sidebar ? sidebar.remove() : 0;
+	}
 };
 checkAuthState();
 function hideLoginWrapper() {
@@ -243,7 +268,7 @@ function showUserInfo(user) {
 	let name = document.getElementById("name");
 	let avatar = document.getElementById("avatar");
 	name.innerHTML = user.displayName || "Anonymous";
-	if (user.photoURL) avatar.src = user.photoURL;
+	avatar.src = user.photoURL || "./assets/images/favicon.png";
 }
 function copyToClipboard(text) {
 	const el = document.createElement("textarea");
@@ -257,6 +282,14 @@ function copyToClipboard(text) {
 }
 function openInNewTab(text) {
 	window.open(`/${text}`, "_blank");
+}
+function reload() {
+	location.reload();
+	window.onmousemove = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
+	};
 }
 pasteBtn.onclick = async () => {
 	if (navigator.clipboard) {
@@ -395,6 +428,10 @@ let confirmFunc = (type, callback) => {
 		delete: {
 			title: "Delete",
 			message: "Are you sure to delete this shortee?",
+		},
+		error: {
+			title: "Oops! Something went wrong :(",
+			message: "Please try again later",
 		},
 	};
 	overlay.classList.add("show");
